@@ -1,7 +1,13 @@
 import React from "react";
 
-function App() {
-  return <div>Works</div>;
-}
+import Video from "./components/Video";
+
+const App = () => {
+  return (
+    <div>
+      <Video videoId="2g811Eo7K8U" />
+    </div>
+  );
+};
 
 export default App;
