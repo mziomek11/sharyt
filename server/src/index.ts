@@ -1,12 +1,18 @@
 import express from "express";
+import http from "http";
+import socket from "socket.io";
+
+import UserList from "./UserList";
 
 const app = express();
+const server = http.createServer(app);
+const io = socket(server);
 const port = process.env.PORT || 8080;
 
-app.get("/", (req, res) => {
-  res.json("works");
+io.on("connection", (socket) => {
+  console.log("socket connected");
 });
 
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`Listening on port ${port}...`);
 });
