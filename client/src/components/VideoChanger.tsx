@@ -1,12 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 type Props = {
   roomId: string;
-  socket: SocketIOClient.Socket | null;
+  socket: SocketIOClient.Socket;
 };
 
 const VideoChanger: React.FC<Props> = ({ roomId, socket }) => {
+  const [loading, setLoading] = useState<boolean>(false);
   const [videoURL, setVideoURL] = useState<string>("");
+
+  useEffect(() => {
+    socket.on("changeVideo", onChangeVideo);
+  }, [socket]);
+
+  function onChangeVideo() {
+    setLoading(false);
+  }
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     setVideoURL(e.target.value);
@@ -14,8 +23,11 @@ const VideoChanger: React.FC<Props> = ({ roomId, socket }) => {
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    if (videoURL.trim().length === 0) return;
+
     const videoId = videoURL.replace("https://www.youtube.com/watch?v=", "");
-    if (socket) socket.emit("changeVideo", { roomId, videoId });
+    setLoading(true);
+    socket.emit("changeVideo", { roomId, videoId });
   }
 
   return (
@@ -24,7 +36,7 @@ const VideoChanger: React.FC<Props> = ({ roomId, socket }) => {
         placeholder="Video link here"
         onChange={handleChange}
         value={videoURL}
-        disabled={!Boolean(socket)}
+        disabled={loading}
       />
     </form>
   );

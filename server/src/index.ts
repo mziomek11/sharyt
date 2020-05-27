@@ -43,6 +43,14 @@ io.on("connection", (socket) => {
     return callback();
   });
 
+  socket.on("disconnect", () => {
+    const user = userList.getUser(socket.id);
+    userList.removeUser(user.id);
+
+    const usersInRoom = userList.getUsersInRoom(user.room);
+    if (usersInRoom.length === 0) roomList.removeRoom(user.room);
+  });
+
   socket.on("startWatching", (roomId) => {
     socket.broadcast.to(roomId).emit("startWatching");
   });

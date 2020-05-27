@@ -8,7 +8,7 @@ class RoomList {
   }
 
   removeRoom(id: string) {
-    this.rooms = this.rooms.filter((room) => room.id === id);
+    this.rooms = this.rooms.filter((room) => room.id !== id);
   }
 
   getRoom(id: string): Room | null {

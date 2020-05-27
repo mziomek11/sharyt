@@ -37,10 +37,10 @@ const Room = () => {
     return () => {
       socket.disconnect();
     };
+    // eslint-disable-next-line
   }, []);
 
   function onChangeVideo(videoId: string) {
-    console.log("vidoer chhanged");
     setVideoId(videoId);
   }
 
@@ -54,7 +54,7 @@ const Room = () => {
           <VideoLoader />
         )}
       </VideoContainer>
-      <VideoChanger socket={socket} roomId={roomId} />
+      {socket && <VideoChanger socket={socket} roomId={roomId} />}
     </main>
   );
 };
