@@ -5,6 +5,7 @@ import { useParams, useHistory } from "react-router-dom";
 
 import Video, { playerHeight, playerWidth } from "./Video";
 import VideoLoader from "./VideoLoader";
+import VideoChanger from "./VideoChanger";
 
 type Params = { roomId: string };
 
@@ -26,6 +27,7 @@ const Room = () => {
       if (room) {
         setVideoId(room.videoId);
         setSocket(socket);
+        socket.on("changeVideo", onChangeVideo);
         history.replace("/room/" + room.id);
       } else history.replace("/");
     };
@@ -37,6 +39,11 @@ const Room = () => {
     };
   }, []);
 
+  function onChangeVideo(videoId: string) {
+    console.log("vidoer chhanged");
+    setVideoId(videoId);
+  }
+
   return (
     <main>
       <h2>Room</h2>
@@ -47,7 +54,7 @@ const Room = () => {
           <VideoLoader />
         )}
       </VideoContainer>
-      <p>Some text</p>
+      <VideoChanger socket={socket} roomId={roomId} />
     </main>
   );
 };

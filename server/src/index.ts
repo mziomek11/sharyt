@@ -43,12 +43,24 @@ io.on("connection", (socket) => {
     return callback();
   });
 
+  socket.on("startWatching", (roomId) => {
+    socket.broadcast.to(roomId).emit("startWatching");
+  });
+
   socket.on("playVideo", ({ time, roomId }) => {
     socket.broadcast.to(roomId).emit("playVideo", time);
   });
 
   socket.on("pauseVideo", ({ time, roomId }) => {
     socket.broadcast.to(roomId).emit("pauseVideo", time);
+  });
+
+  socket.on("changeVideo", ({ roomId, videoId }) => {
+    const room = roomList.getRoom(roomId);
+    if (room) {
+      room.videoId = videoId;
+      io.to(roomId).emit("changeVideo", videoId);
+    }
   });
 });
 
