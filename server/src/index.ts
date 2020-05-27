@@ -1,16 +1,55 @@
 import express from "express";
 import http from "http";
-import socket from "socket.io";
+import socket, { Socket } from "socket.io";
 
+import User from "./User";
+import Room from "./Room";
 import UserList from "./UserList";
+import RoomList from "./RoomList";
 
 const app = express();
 const server = http.createServer(app);
 const io = socket(server);
 const port = process.env.PORT || 8080;
 
+const userList = new UserList();
+const roomList = new RoomList();
+
+const joinRoom = (
+  socket: Socket,
+  username: string,
+  room: Room,
+  callback: (r: Room) => void
+) => {
+  const user = new User(socket.id, username, room.id);
+  userList.addUser(user);
+  socket.join(room.id);
+
+  callback(room);
+};
+
 io.on("connection", (socket) => {
-  console.log("socket connected");
+  socket.on("joinRoom", ({ username, roomId }, callback) => {
+    if (roomId === "new") {
+      const newRoom = new Room();
+      roomList.addRoom(newRoom);
+
+      return joinRoom(socket, username, newRoom, callback);
+    }
+
+    const room = roomList.getRoom(roomId);
+    if (room) return joinRoom(socket, username, room, callback);
+
+    return callback();
+  });
+
+  socket.on("playVideo", (roomId: string) => {
+    socket.broadcast.to(roomId).emit("playVideo");
+  });
+
+  socket.on("pauseVideo", (roomId: string) => {
+    socket.broadcast.to(roomId).emit("pauseVideo");
+  });
 });
 
 server.listen(port, () => {

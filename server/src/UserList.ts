@@ -7,12 +7,12 @@ class UserList {
     this.users.push(user);
   }
 
-  removeUser(userId: string) {
-    this.users = this.users.filter((user) => user.getId() === userId);
+  removeUser(id: string) {
+    this.users = this.users.filter((user) => user.id === id);
   }
 
-  getUser(userId: string): User | null {
-    const user = this.users.find((user) => user.getId() === userId);
+  getUser(id: string): User | null {
+    const user = this.users.find((user) => user.id === id);
 
     return user ? user : null;
   }

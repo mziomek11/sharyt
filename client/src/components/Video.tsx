@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import YouTube from "react-youtube";
-import io from "socket.io-client";
 
 type Props = {
-  videoId: string;
+  videoId: string | null;
+  socket: SocketIOClient.Socket | null;
+  room: string;
 };
 
 const options = {
@@ -11,39 +12,46 @@ const options = {
   width: "640",
 };
 
-const Video: React.FC<Props> = ({ videoId }) => {
-  const [player, setPlayer] = useState<null | YT.Player>(null);
+const Video: React.FC<Props> = ({ videoId, socket, room }) => {
+  const player = useRef<YT.Player>();
 
   useEffect(() => {
-    io("localhost:8080");
-  }, []);
+    if (socket) {
+      socket.on("playVideo", onPlayVideo);
+      socket.on("pauseVideo", onPauseVideo);
+    }
+  }, [socket]);
 
   function onReady(e: { target: YT.Player }) {
-    setPlayer(e.target);
+    player.current = e.target;
   }
 
-  function startPlaying() {
-    if (player) {
-      player.playVideo();
-    }
+  function handlePlayVideo() {
+    if (socket) socket.emit("playVideo", room);
   }
 
-  function stopPlaying() {
-    if (player) {
-      player.pauseVideo();
-    }
+  function handlePauseVideo() {
+    if (socket) socket.emit("pauseVideo", room);
   }
+
+  function onPlayVideo() {
+    if (player.current) player.current.playVideo();
+  }
+
+  function onPauseVideo() {
+    if (player.current) player.current.pauseVideo();
+  }
+
+  if (!socket || !videoId) return <h1>Loading</h1>;
 
   return (
-    <div>
-      <YouTube videoId={videoId} opts={options} onReady={onReady} />
-      <button onClick={startPlaying} disabled={!player}>
-        Play
-      </button>
-      <button onClick={stopPlaying} disabled={!player}>
-        Stop
-      </button>
-    </div>
+    <YouTube
+      videoId={videoId}
+      opts={options}
+      onReady={onReady}
+      onPlay={handlePlayVideo}
+      onPause={handlePauseVideo}
+    />
   );
 };
 

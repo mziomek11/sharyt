@@ -1,12 +1,17 @@
 import React from "react";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
 
-import Video from "./components/Video";
+import Entrance from "./components/Entrance";
+import Room from "./components/Room";
 
 const App = () => {
   return (
-    <div>
-      <Video videoId="2g811Eo7K8U" />
-    </div>
+    <BrowserRouter>
+      <Switch>
+        <Route exact path="/room/:roomId" component={Room} />
+        <Route path="/" component={Entrance} />
+      </Switch>
+    </BrowserRouter>
   );
 };
 
