@@ -1,4 +1,4 @@
-import { v4 as uuidv4 } from "uuid";
+import shortid from "shortid";
 
 const defualtVideoId = "2g811Eo7K8U";
 
@@ -7,7 +7,7 @@ class Room {
   videoId: string;
 
   constructor() {
-    this.id = uuidv4();
+    this.id = shortid();
     this.videoId = defualtVideoId;
   }
 }

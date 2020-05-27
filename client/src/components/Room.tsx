@@ -8,6 +8,7 @@ import VideoLoader from "./VideoLoader";
 import VideoChanger from "./VideoChanger";
 
 type Params = { roomId: string };
+type ResponseRoom = { id: string; videoId: string };
 
 const VideoContainer = styled.div`
   width: ${playerWidth}px;
@@ -19,20 +20,21 @@ const Room = () => {
   const { roomId } = useParams<Params>();
   const [socket, setSocket] = useState<SocketIOClient.Socket | null>(null);
   const [videoId, setVideoId] = useState<string>("");
+  const [username, setUsername] = useState<string>("");
 
   useEffect(() => {
     const socket = io(process.env.REACT_APP_SERVER!);
-    const joinRoomData = { roomId, username: "some username" };
-    const joinRoomCallback = (room?: any) => {
-      if (room) {
+    const joinRoomCallback = (room?: ResponseRoom, username?: string) => {
+      if (room && username) {
         setVideoId(room.videoId);
         setSocket(socket);
+        setUsername(username);
         socket.on("changeVideo", onChangeVideo);
         history.replace("/room/" + room.id);
       } else history.replace("/");
     };
 
-    socket.emit("joinRoom", joinRoomData, joinRoomCallback);
+    socket.emit("joinRoom", roomId, joinRoomCallback);
 
     return () => {
       socket.disconnect();

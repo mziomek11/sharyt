@@ -17,10 +17,6 @@ const VideoChanger: React.FC<Props> = ({ roomId, socket }) => {
     setLoading(false);
   }
 
-  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    setVideoURL(e.target.value);
-  }
-
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (videoURL.trim().length === 0) return;
@@ -28,6 +24,10 @@ const VideoChanger: React.FC<Props> = ({ roomId, socket }) => {
     const videoId = videoURL.replace("https://www.youtube.com/watch?v=", "");
     setLoading(true);
     socket.emit("changeVideo", { roomId, videoId });
+  }
+
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    setVideoURL(e.target.value);
   }
 
   return (
