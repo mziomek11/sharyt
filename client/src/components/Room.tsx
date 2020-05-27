@@ -15,13 +15,13 @@ const VideoContainer = styled.div`
 
 const Room = () => {
   const history = useHistory();
-  const params = useParams<Params>();
+  const { roomId } = useParams<Params>();
   const [socket, setSocket] = useState<SocketIOClient.Socket | null>(null);
   const [videoId, setVideoId] = useState<string>("");
 
   useEffect(() => {
     const socket = io(process.env.REACT_APP_SERVER!);
-    const joinRoomData = { roomId: params.roomId, username: "some username" };
+    const joinRoomData = { roomId, username: "some username" };
     const joinRoomCallback = (room?: any) => {
       if (room) {
         setVideoId(room.videoId);
@@ -42,7 +42,7 @@ const Room = () => {
       <h2>Room</h2>
       <VideoContainer>
         {socket ? (
-          <Video videoId={videoId} socket={socket} room={params.roomId} />
+          <Video videoId={videoId} socket={socket} roomId={roomId} />
         ) : (
           <VideoLoader />
         )}
