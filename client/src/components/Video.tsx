@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import YouTube from "react-youtube";
 
 enum PlayerState {
+  UNSTATED = -1,
   ENDED = 0,
   PLAYING = 1,
   PAUSED = 2,
@@ -26,34 +27,50 @@ const Video: React.FC<Props> = ({ videoId, socket, roomId }) => {
     socket.on("pauseVideo", onPauseVideo);
   }, [socket]);
 
-  function onReady(e: { target: YT.Player }) {
+  function handlePlayerReady(e: { target: YT.Player }) {
     player.current = e.target;
   }
 
   function handleStateChange(e: { target: YT.Player; data: PlayerState }) {
+    const time = player.current!.getCurrentTime();
+    const eventData = { roomId, time };
+
     switch (e.data) {
       case PlayerState.PLAYING:
-        socket.emit("playVideo", roomId);
+        socket.emit("playVideo", eventData);
         break;
       case PlayerState.PAUSED:
-        socket.emit("pauseVideo", roomId);
+        socket.emit("pauseVideo", eventData);
         break;
     }
   }
 
-  function onPlayVideo() {
-    if (player.current) player.current.playVideo();
+  function onPlayVideo(time: number) {
+    const state: PlayerState = player.current!.getPlayerState() as number;
+    console.log(state);
+    if (state === PlayerState.UNSTATED || state === PlayerState.PAUSED) {
+      player.current!.playVideo();
+      player.current!.seekTo(time, true);
+    }
   }
 
-  function onPauseVideo() {
-    if (player.current) player.current.pauseVideo();
+  function onPauseVideo(time: number) {
+    const state: PlayerState = player.current!.getPlayerState() as number;
+    if (state !== PlayerState.PAUSED) {
+      player.current!.pauseVideo();
+      player.current!.seekTo(time, true);
+    }
   }
 
   return (
     <YouTube
       videoId={videoId}
-      opts={{ width: playerWidth.toString(), height: playerHeight.toString() }}
-      onReady={onReady}
+      opts={{
+        width: playerWidth.toString(),
+        height: playerHeight.toString(),
+        playerVars: { autoplay: 1 },
+      }}
+      onReady={handlePlayerReady}
       onStateChange={handleStateChange}
     />
   );
