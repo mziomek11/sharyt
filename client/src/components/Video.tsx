@@ -2,24 +2,20 @@ import React, { useEffect, useRef } from "react";
 import YouTube from "react-youtube";
 
 type Props = {
-  videoId: string | null;
-  socket: SocketIOClient.Socket | null;
+  videoId: string;
+  socket: SocketIOClient.Socket;
   room: string;
 };
 
-const options = {
-  height: "480",
-  width: "640",
-};
+export const playerWidth = 640;
+export const playerHeight = 480;
 
 const Video: React.FC<Props> = ({ videoId, socket, room }) => {
   const player = useRef<YT.Player>();
 
   useEffect(() => {
-    if (socket) {
-      socket.on("playVideo", onPlayVideo);
-      socket.on("pauseVideo", onPauseVideo);
-    }
+    socket.on("playVideo", onPlayVideo);
+    socket.on("pauseVideo", onPauseVideo);
   }, [socket]);
 
   function onReady(e: { target: YT.Player }) {
@@ -27,11 +23,11 @@ const Video: React.FC<Props> = ({ videoId, socket, room }) => {
   }
 
   function handlePlayVideo() {
-    if (socket) socket.emit("playVideo", room);
+    socket.emit("playVideo", room);
   }
 
   function handlePauseVideo() {
-    if (socket) socket.emit("pauseVideo", room);
+    socket.emit("pauseVideo", room);
   }
 
   function onPlayVideo() {
@@ -42,12 +38,10 @@ const Video: React.FC<Props> = ({ videoId, socket, room }) => {
     if (player.current) player.current.pauseVideo();
   }
 
-  if (!socket || !videoId) return <h1>Loading</h1>;
-
   return (
     <YouTube
       videoId={videoId}
-      opts={options}
+      opts={{ width: playerWidth.toString(), height: playerHeight.toString() }}
       onReady={onReady}
       onPlay={handlePlayVideo}
       onPause={handlePauseVideo}
