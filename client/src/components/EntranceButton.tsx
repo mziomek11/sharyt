@@ -8,7 +8,7 @@ const EntranceButton = () => {
     history.push("/room/new");
   }
 
-  return <button onClick={handleCreateRoomClick}>Create new room</button>;
+  return <button onClick={handleCreateRoomClick}>Create room</button>;
 };
 
 export default EntranceButton;
