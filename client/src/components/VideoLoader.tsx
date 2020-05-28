@@ -1,7 +1,11 @@
 import React from "react";
+import Loader from "react-loader-spinner";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+
+import { theme } from "../styles/theme";
 
 const VideoLoader = () => {
-  return <h2>Loading</h2>;
+  return <Loader type="Plane" color={theme.primaryColor} />;
 };
 
 export default VideoLoader;

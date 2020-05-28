@@ -7,6 +7,7 @@ const SHeader = styled.header`
   background: ${(props) => props.theme.primaryColor};
   padding: 0.65em;
   margin-bottom: 1.5em;
+  text-align: center;
 `;
 
 const SLink = styled(Link)`

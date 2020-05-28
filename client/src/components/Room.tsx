@@ -13,6 +13,10 @@ type ResponseRoom = { id: string; videoId: string };
 const VideoContainer = styled.div`
   width: ${playerWidth}px;
   height: ${playerHeight}px;
+  background: #000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const Room = () => {
