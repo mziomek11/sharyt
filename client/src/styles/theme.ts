@@ -4,6 +4,6 @@ export type Theme = {
 };
 
 export const theme: Theme = {
-  primaryColor: "rgb(0, 0, 0)",
-  secondaryColor: "rgb(254, 168, 47)",
+  primaryColor: "#522E23",
+  secondaryColor: "#FFFECB",
 };

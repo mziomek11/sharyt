@@ -1,7 +1,7 @@
 import React from "react";
-import styled from "styled-components";
+import { Link } from "react-router-dom";
 
-import EntranceButton from "./EntranceButton";
+import styled from "../styles";
 import { ReactComponent as VideoSvg } from "../assets/video.svg";
 
 const SRoot = styled.main`
@@ -9,19 +9,30 @@ const SRoot = styled.main`
   flex-direction: column;
   align-items: center;
   text-align: center;
-  width: 100%;
 `;
 
-const SHeading = styled.h1`
-  margin-bottom: 1em;
+const SLink = styled(Link)`
+  font-size: 1.05em;
+  padding: 0.35em 1.2em;
+  border: 0.1em solid ${(props) => props.theme.primaryColor};
+  margin: 0 0.3em 0.3em 0;
+  border-radius: 0.12em;
+  color: ${(props) => props.theme.primaryColor};
+  text-align: center;
+  transition: all 0.3s;
+
+  &:hover {
+    background: ${(props) => props.theme.primaryColor};
+    color: ${(props) => props.theme.secondaryColor};
+  }
 `;
 
 const Entrance = () => {
   return (
     <SRoot className="container">
-      <SHeading>Watch YouTube videos with friends</SHeading>
+      <h1>Watch YouTube videos with friends</h1>
       <VideoSvg width="50%" />
-      <EntranceButton />
+      <SLink to="/room/new">Create room</SLink>
     </SRoot>
   );
 };

@@ -6,7 +6,7 @@ import styled from "../styles";
 const SHeader = styled.header`
   background: ${(props) => props.theme.primaryColor};
   padding: 0.65em;
-  margin-bottom: 1em;
+  margin-bottom: 1.5em;
 `;
 
 const SLink = styled(Link)`
