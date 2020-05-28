@@ -21,9 +21,17 @@ const VideoChanger: React.FC<Props> = ({ roomId, socket }) => {
     e.preventDefault();
     if (videoURL.trim().length === 0) return;
 
-    const videoId = videoURL.replace("https://www.youtube.com/watch?v=", "");
     setLoading(true);
-    socket.emit("changeVideo", { roomId, videoId });
+    const videoId = videoURL.replace("https://www.youtube.com/watch?v=", "");
+
+    //source https://gist.github.com/tonY1883/a3b85925081688de569b779b4657439b
+    var img = new Image();
+    img.src = "http://img.youtube.com/vi/" + videoId + "/0.jpg";
+    img.onload = () => {
+      if (img.width === 120) alert("video does not exitst");
+      else socket.emit("changeVideo", { roomId, videoId });
+      setLoading(false);
+    };
   }
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
