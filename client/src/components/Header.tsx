@@ -12,6 +12,7 @@ const SHeader = styled.header`
 
 const SLink = styled(Link)`
   color: ${(props) => props.theme.secondaryColor};
+  cursor: pointer;
 `;
 
 const Header = () => {

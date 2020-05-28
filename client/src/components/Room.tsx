@@ -6,6 +6,7 @@ import { useParams, useHistory } from "react-router-dom";
 import Video, { playerHeight, playerWidth } from "./Video";
 import VideoLoader from "./VideoLoader";
 import VideoChanger from "./VideoChanger";
+import MessageBox from "./MessageBox";
 
 type Params = { roomId: string };
 type ResponseRoom = { id: string; videoId: string };
@@ -60,6 +61,7 @@ const Room = () => {
         )}
       </VideoContainer>
       {socket && <VideoChanger socket={socket} roomId={roomId} />}
+      {socket && <MessageBox socket={socket} />}
     </main>
   );
 };

@@ -6,6 +6,7 @@ import User from "./User";
 import Room from "./Room";
 import UserList from "./UserList";
 import RoomList from "./RoomList";
+import Message from "./Message";
 import {
   ChangeVideoData,
   PauseVideoData,
@@ -21,13 +22,19 @@ const port = process.env.PORT || 8080;
 const userList = new UserList();
 const roomList = new RoomList();
 
-const joinRoom = (socket: Socket, room: Room, callback: JoinRoomCallback) => {
+function broadcastMessage(socket: Socket, user: User, content: string) {
+  const message = new Message(user.username, content);
+  socket.broadcast.to(user.room).emit("message", message);
+}
+
+function joinRoom(socket: Socket, room: Room, callback: JoinRoomCallback) {
   const user = new User(socket.id, room.id);
   userList.addUser(user);
   socket.join(room.id);
+  broadcastMessage(socket, user, "joined room");
 
   callback(room, user.username);
-};
+}
 
 io.on("connection", (socket) => {
   socket.on("joinRoom", (roomId: string, callback: JoinRoomCallback) => {
@@ -51,6 +58,7 @@ io.on("connection", (socket) => {
     userList.removeUser(user.id);
     const usersInRoom = userList.getUsersInRoom(user.room);
     if (usersInRoom.length === 0) roomList.removeRoom(user.room);
+    else broadcastMessage(socket, user, "left room");
   });
 
   socket.on("startWatching", (roomId: string) => {

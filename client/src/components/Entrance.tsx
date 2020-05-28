@@ -20,6 +20,7 @@ const SLink = styled(Link)`
   color: ${(props) => props.theme.primaryColor};
   text-align: center;
   transition: all 0.3s;
+  cursor: pointer;
 
   &:hover {
     background: ${(props) => props.theme.primaryColor};
