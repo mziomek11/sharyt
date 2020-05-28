@@ -18,7 +18,7 @@ const SHeading = styled.h1`
 
 const Entrance = () => {
   return (
-    <SRoot>
+    <SRoot className="container">
       <SHeading>Watch YouTube videos with friends</SHeading>
       <VideoSvg width="50%" />
       <EntranceButton />

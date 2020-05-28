@@ -15,4 +15,19 @@ export default createGlobalStyle`
   a {
     text-decoration: none;
   }
+
+  .container {
+    max-width: 1440px;
+    margin: auto;
+    padding: 0 5%;
+
+    @media screen and (min-width: 768px){
+      padding: 0 10%;
+    }
+
+    @media screen and (min-width: 1024px){
+      padding: 0 14%;
+    }
+    
+  }
 `;

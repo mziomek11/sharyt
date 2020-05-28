@@ -47,8 +47,7 @@ const Room = () => {
   }
 
   return (
-    <main>
-      <h2>Room</h2>
+    <main className="container">
       <VideoContainer>
         {socket ? (
           <Video videoId={videoId} socket={socket} roomId={roomId} />
