@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useRoom } from "../../context/room";
 
 const MessageInput = () => {
-  const { socket, username } = useRoom();
+  const { socket, userId } = useRoom();
   const [message, setMessage] = useState<string>("");
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -14,7 +14,7 @@ const MessageInput = () => {
     e.preventDefault();
     if (message.trim().length === 0 || !socket) return;
 
-    socket.emit("message", { message, author: username });
+    socket.emit("sendMessage", { userId, content: message });
     setMessage("");
   }
 

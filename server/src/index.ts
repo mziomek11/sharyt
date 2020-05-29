@@ -10,6 +10,7 @@ import Message from "./Message";
 import {
   ChangeVideoData,
   PauseVideoData,
+  SendMessageData,
   PlayVideoData,
   JoinRoomCallback,
 } from "./types";
@@ -24,7 +25,7 @@ const roomList = new RoomList();
 
 function broadcastMessage(socket: Socket, user: User, content: string) {
   const message = new Message(user.username, content);
-  socket.broadcast.to(user.room).emit("message", message);
+  socket.broadcast.to(user.room).emit("receiveMessage", message);
 }
 
 function joinRoom(socket: Socket, room: Room, callback: JoinRoomCallback) {
@@ -79,6 +80,14 @@ io.on("connection", (socket) => {
 
     room.videoId = videoId;
     io.to(roomId).emit("changeVideo", videoId);
+  });
+
+  socket.on("sendMessage", ({ userId, content }: SendMessageData) => {
+    const user = userList.getUser(userId);
+    if (!user) return;
+
+    const message = new Message(user.username, content);
+    io.to(user.room).emit("receiveMessage", message);
   });
 });
 

@@ -14,7 +14,7 @@ const MessageList = () => {
 
   useEffect(() => {
     if (socket) {
-      socket.on("message", onMessage);
+      socket.on("receiveMessage", onMessage);
     }
   }, [socket]);
 
