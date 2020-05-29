@@ -11,7 +11,6 @@ import {
   ChangeVideoData,
   PauseVideoData,
   PlayVideoData,
-  SendMessageData,
   JoinRoomCallback,
 } from "./types";
 
@@ -34,7 +33,7 @@ function joinRoom(socket: Socket, room: Room, callback: JoinRoomCallback) {
   socket.join(room.id);
   broadcastMessage(socket, user, "joined room");
 
-  callback(room, user.username);
+  callback(room, { id: user.id, username: user.username });
 }
 
 io.on("connection", (socket) => {

@@ -4,7 +4,9 @@ import { useParams, useHistory } from "react-router-dom";
 
 type Params = { roomId: string };
 type ResponseRoom = { id: string; videoId: string };
+type ResponseUser = { id: string; username: string };
 type RoomContext = {
+  userId: string;
   username: string;
   roomId: string;
   videoId: string;
@@ -17,16 +19,24 @@ export const RoomProvider: React.FC = ({ children }) => {
   const history = useHistory();
   const { roomId } = useParams<Params>();
   const [socket, setSocket] = useState<SocketIOClient.Socket | null>(null);
-  const [videoId, setVideoId] = useState<string>("");
-  const [username, setUsername] = useState<string>("");
+  const [state, setState] = useState<Omit<RoomContext, "socket" | "roomId">>({
+    userId: "",
+    username: "",
+    videoId: "",
+  });
 
   useEffect(() => {
     const socket = io(process.env.REACT_APP_SERVER!);
-    const joinRoomCallback = (room?: ResponseRoom, username?: string) => {
-      if (room && username) {
-        setVideoId(room.videoId);
+    const joinRoomCallback = (room?: ResponseRoom, user?: ResponseUser) => {
+      if (room && user) {
+        console.log(user);
+        setState({
+          userId: user.id,
+          username: user.username,
+          videoId: room.videoId,
+        });
         setSocket(socket);
-        setUsername(username);
+
         socket.on("changeVideo", onChangeVideo);
         history.replace("/room/" + room.id);
       } else history.replace("/");
@@ -41,11 +51,11 @@ export const RoomProvider: React.FC = ({ children }) => {
   }, []);
 
   function onChangeVideo(videoId: string) {
-    setVideoId(videoId);
+    setState((prevState) => ({ ...prevState, videoId }));
   }
 
   return (
-    <RoomContext.Provider value={{ roomId, socket, videoId, username }}>
+    <RoomContext.Provider value={{ roomId, socket, ...state }}>
       {children}
     </RoomContext.Provider>
   );
