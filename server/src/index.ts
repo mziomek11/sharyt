@@ -11,6 +11,7 @@ import {
   ChangeVideoData,
   PauseVideoData,
   PlayVideoData,
+  SendMessageData,
   JoinRoomCallback,
 } from "./types";
 
@@ -75,10 +76,10 @@ io.on("connection", (socket) => {
 
   socket.on("changeVideo", ({ roomId, videoId }: ChangeVideoData) => {
     const room = roomList.getRoom(roomId);
-    if (room) {
-      room.videoId = videoId;
-      io.to(roomId).emit("changeVideo", videoId);
-    }
+    if (!room) return;
+
+    room.videoId = videoId;
+    io.to(roomId).emit("changeVideo", videoId);
   });
 });
 

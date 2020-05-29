@@ -1,17 +1,15 @@
 import React, { useState } from "react";
 
-type Props = {
-  roomId: string;
-  socket: SocketIOClient.Socket;
-};
+import { useRoom } from "../../context/room";
 
-const VideoChanger: React.FC<Props> = ({ roomId, socket }) => {
+const VideoChanger = () => {
+  const { roomId, socket } = useRoom();
   const [loading, setLoading] = useState<boolean>(false);
   const [videoURL, setVideoURL] = useState<string>("");
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (videoURL.trim().length === 0) return;
+    if (videoURL.trim().length === 0 || !socket) return;
 
     setLoading(true);
     const videoId = videoURL.replace("https://www.youtube.com/watch?v=", "");

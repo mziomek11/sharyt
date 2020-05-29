@@ -1,6 +1,8 @@
 import React, { useEffect, useRef } from "react";
 import YouTube from "react-youtube";
 
+import { useRoom } from "../../context/room";
+
 enum PlayerState {
   UNSTATED = -1,
   ENDED = 0,
@@ -10,22 +12,19 @@ enum PlayerState {
   CUED = 5,
 }
 
-type Props = {
-  videoId: string;
-  socket: SocketIOClient.Socket;
-  roomId: string;
-};
-
 export const playerWidth = 640;
 export const playerHeight = 480;
 
-const Video: React.FC<Props> = ({ videoId, socket, roomId }) => {
+const Video = () => {
+  const { socket, videoId, roomId } = useRoom();
   const player = useRef<YT.Player>();
 
   useEffect(() => {
-    socket.on("playVideo", onPlayVideo);
-    socket.on("pauseVideo", onPauseVideo);
-    socket.on("startWatching", onStartWatching);
+    if (socket) {
+      socket.on("playVideo", onPlayVideo);
+      socket.on("pauseVideo", onPauseVideo);
+      socket.on("startWatching", onStartWatching);
+    }
   }, [socket]);
 
   function onPlayVideo(time: number) {
@@ -57,6 +56,7 @@ const Video: React.FC<Props> = ({ videoId, socket, roomId }) => {
   }
 
   function handleStateChange(e: { target: YT.Player; data: PlayerState }) {
+    if (!socket) return;
     const time = player.current!.getCurrentTime();
     const eventData = { roomId, time };
 

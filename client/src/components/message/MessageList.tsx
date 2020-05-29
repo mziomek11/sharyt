@@ -1,20 +1,21 @@
 import React, { useEffect, useState } from "react";
 
+import { useRoom } from "../../context/room";
+
 type Message = {
   id: string;
   author: string;
   content: string;
 };
 
-type Props = {
-  socket: SocketIOClient.Socket;
-};
-
-const MessageBox: React.FC<Props> = ({ socket }) => {
+const MessageList = () => {
+  const { socket } = useRoom();
   const [messages, setMessages] = useState<Message[]>([]);
 
   useEffect(() => {
-    socket.on("message", onMessage);
+    if (socket) {
+      socket.on("message", onMessage);
+    }
   }, [socket]);
 
   function onMessage(message: Message) {
@@ -32,4 +33,4 @@ const MessageBox: React.FC<Props> = ({ socket }) => {
   );
 };
 
-export default MessageBox;
+export default MessageList;
