@@ -5,9 +5,12 @@ import MessageInput from "./MessageInput";
 import styled from "../../styles";
 
 const SRoot = styled.div`
-  height: 500px;
-  width: 400px;
+  display: flex;
+  flex-direction: column;
+  height: 510px;
+  width: 100%;
   border: 1px solid black;
+  margin-left: 1em;
 `;
 
 const MessageBox = () => {

@@ -7,7 +7,11 @@ import VideoChanger from "./video/VideoChanger";
 import MessageBox from "./message/MessageBox";
 import { RoomProvider, useRoom } from "../context/room";
 
-const VideoContainer = styled.div`
+const SRoot = styled.main`
+  display: flex;
+`;
+
+const SVideoContainer = styled.div`
   width: ${playerWidth}px;
   height: ${playerHeight}px;
   background: #000000;
@@ -20,11 +24,15 @@ const Room = () => {
   const { socket } = useRoom();
 
   return (
-    <main className="container">
-      <VideoContainer>{socket ? <Video /> : <VideoLoader />}</VideoContainer>
-      <VideoChanger />
+    <SRoot className="container">
+      <div>
+        <SVideoContainer>
+          {socket ? <Video /> : <VideoLoader />}
+        </SVideoContainer>
+        <VideoChanger />
+      </div>
       <MessageBox />
-    </main>
+    </SRoot>
   );
 };
 

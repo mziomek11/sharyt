@@ -1,6 +1,15 @@
 import React, { useState } from "react";
 
+import styled from "../../styles";
 import { useRoom } from "../../context/room";
+
+const SForm = styled.form`
+  margin-top: 1em;
+`;
+
+const SInput = styled.input`
+  width: 100%;
+`;
 
 const VideoChanger = () => {
   const { roomId, socket } = useRoom();
@@ -29,14 +38,14 @@ const VideoChanger = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
+    <SForm onSubmit={handleSubmit}>
+      <SInput
         placeholder="Video link here"
         onChange={handleChange}
         value={videoURL}
-        disabled={loading}
+        disabled={!Boolean(socket) || loading}
       />
-    </form>
+    </SForm>
   );
 };
 

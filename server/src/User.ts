@@ -4,7 +4,7 @@ class User {
   username: string;
 
   constructor(public id: string, public room: string) {
-    this.username = "User " + shortid();
+    this.username = shortid();
   }
 }
 

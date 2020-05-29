@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 
+import styled from "../../styles";
 import { useRoom } from "../../context/room";
+
+const SInput = styled.input`
+  width: 100%;
+`;
 
 const MessageInput = () => {
   const { socket, userId } = useRoom();
@@ -20,7 +25,7 @@ const MessageInput = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <input
+      <SInput
         placeholder="Your message..."
         onChange={handleChange}
         value={message}
