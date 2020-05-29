@@ -6,6 +6,7 @@ import { useRoom } from "../../context/room";
 
 type ResponseMessage = {
   id: string;
+  sendTime: number;
   author: string;
   content: string;
 };

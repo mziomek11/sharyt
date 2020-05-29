@@ -23,8 +23,8 @@ const port = process.env.PORT || 8080;
 const userList = new UserList();
 const roomList = new RoomList();
 
-function broadcastMessage(socket: Socket, user: User, content: string) {
-  const message = new Message(user.username, content);
+function broadcastSystemMessage(socket: Socket, user: User, content: string) {
+  const message = new Message("System", `${user.username} ${content}`);
   socket.broadcast.to(user.room).emit("receiveMessage", message);
 }
 
@@ -32,7 +32,7 @@ function joinRoom(socket: Socket, room: Room, callback: JoinRoomCallback) {
   const user = new User(socket.id, room.id);
   userList.addUser(user);
   socket.join(room.id);
-  broadcastMessage(socket, user, "joined room");
+  broadcastSystemMessage(socket, user, "joined room");
 
   callback(room, { id: user.id, username: user.username });
 }
@@ -59,7 +59,7 @@ io.on("connection", (socket) => {
     userList.removeUser(user.id);
     const usersInRoom = userList.getUsersInRoom(user.room);
     if (usersInRoom.length === 0) roomList.removeRoom(user.room);
-    else broadcastMessage(socket, user, "left room");
+    else broadcastSystemMessage(socket, user, "left room");
   });
 
   socket.on("startWatching", (roomId: string) => {
