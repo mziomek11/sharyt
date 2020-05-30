@@ -29,7 +29,6 @@ export const RoomProvider: React.FC = ({ children }) => {
     const socket = io(process.env.REACT_APP_SERVER!);
     const joinRoomCallback = (room?: ResponseRoom, user?: ResponseUser) => {
       if (room && user) {
-        console.log(user);
         setState({
           userId: user.id,
           username: user.username,

@@ -5,6 +5,10 @@ import { useRoom } from "../../context/room";
 
 const SInput = styled.input`
   width: 100%;
+  padding: ${(props) => props.theme.chatPadding};
+  border: 0;
+  border-top: 1px solid black;
+  font-size: 1em;
 `;
 
 const MessageInput = () => {

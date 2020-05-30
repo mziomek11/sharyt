@@ -12,6 +12,10 @@ export default createGlobalStyle`
     box-sizing: border-box;
   }
 
+  ul {
+    list-style: none;
+  }
+
   a {
     text-decoration: none;
   }
@@ -22,7 +26,7 @@ export default createGlobalStyle`
     padding: 0 5%;
 
     @media screen and (min-width: 768px){
-      padding: 0 10%;
+      padding: 0 9%;
     }
     
   }

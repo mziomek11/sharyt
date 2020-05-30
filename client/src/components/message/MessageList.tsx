@@ -1,8 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
 
-import Message from "./Message";
 import styled from "../../styles";
+import MessageGroup, { MessageGroupType } from "./MessageGroup";
 import { useRoom } from "../../context/room";
+import { deepCopy } from "../../utils/object";
+import { isSentTimeEqual } from "../../utils/time";
 
 type ResponseMessage = {
   id: string;
@@ -12,25 +14,46 @@ type ResponseMessage = {
 };
 
 const SList = styled.ul`
-  list-style: none;
+  display: flex;
+  flex-direction: column;
   height: 100%;
-  padding: 1em;
   overflow: auto;
+  border-top: 1px solid black;
 `;
 
 const MessageList = () => {
   const { socket } = useRoom();
-  const [messages, setMessages] = useState<ResponseMessage[]>([]);
+  const [messageGroups, setMessagesGroups] = useState<MessageGroupType[]>([]);
   const listRef = useRef<HTMLUListElement>(null);
 
   useEffect(() => {
     if (socket) {
       socket.on("receiveMessage", onMessage);
     }
+    // eslint-disable-next-line
   }, [socket]);
 
-  function onMessage(message: ResponseMessage) {
-    setMessages((prevMessages) => [...prevMessages, message]);
+  function onMessage({ author, ...rest }: ResponseMessage) {
+    setMessagesGroups((prevGroups): MessageGroupType[] => {
+      const message = { ...rest, showSendTime: true };
+      if (prevGroups.length === 0) return [{ author, messages: [message] }];
+
+      const otherGroups: MessageGroupType[] = deepCopy(prevGroups);
+      const lastGroup = otherGroups.pop() as MessageGroupType;
+
+      if (author === lastGroup.author) {
+        const lastMessage = lastGroup.messages[lastGroup.messages.length - 1];
+        if (isSentTimeEqual(lastMessage.sendTime, rest.sendTime)) {
+          lastMessage.showSendTime = false;
+        }
+
+        lastGroup.messages.push(message);
+        return [...otherGroups, lastGroup];
+      }
+
+      return [...otherGroups, lastGroup, { author, messages: [message] }];
+    });
+
     if (listRef.current) {
       listRef.current.scroll({ top: listRef.current.scrollHeight });
     }
@@ -38,8 +61,8 @@ const MessageList = () => {
 
   return (
     <SList ref={listRef}>
-      {messages.map(({ id, ...rest }) => (
-        <Message key={id} {...rest} />
+      {messageGroups.map((messageGroup) => (
+        <MessageGroup key={messageGroup.messages[0].id} {...messageGroup} />
       ))}
     </SList>
   );

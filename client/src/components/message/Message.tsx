@@ -1,27 +1,34 @@
 import React from "react";
 
 import styled from "../../styles";
+import { formatToHoursAndMinutes } from "../../utils/time";
 
 type Props = {
-  author: string;
   content: string;
+  isAuthor: boolean;
   sendTime: number;
+  showSendTime: boolean;
 };
 
-const SRoot = styled.li``;
+const SMessage = styled.p<{ isAuthor: boolean }>`
+  padding: 0.4em;
+  background: ${(props) =>
+    props.isAuthor ? props.theme.primaryColor : "lightgrey"};
+`;
 
-const Message: React.FC<Props> = ({ author, content, sendTime }) => {
-  const date = new Date(sendTime);
-  const hours = date.getHours();
-  const minutes = date.getMinutes();
+const STime = styled.time``;
 
+const Message: React.FC<Props> = ({
+  content,
+  isAuthor,
+  sendTime,
+  showSendTime,
+}) => {
   return (
-    <SRoot>
-      <p>
-        {author} at {hours}:{minutes}
-      </p>
-      <p>{content}</p>
-    </SRoot>
+    <li>
+      <SMessage isAuthor={isAuthor}>{content}</SMessage>
+      {showSendTime && <STime>{formatToHoursAndMinutes(sendTime)}</STime>}
+    </li>
   );
 };
 
