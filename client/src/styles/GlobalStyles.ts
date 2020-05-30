@@ -20,13 +20,21 @@ export default createGlobalStyle`
     text-decoration: none;
   }
 
+  iframe {
+    position: absolute;
+    left: 0;
+    top:0;
+    width: 100%;
+    height:100%;
+  }
+
   .container {
-    max-width: 1440px;
+    max-width: 1260px;
     margin: auto;
     padding: 0 5%;
 
     @media screen and (min-width: 768px){
-      padding: 0 9%;
+      padding: 0 8%;
     }
     
   }

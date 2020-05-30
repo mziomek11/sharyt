@@ -39,7 +39,7 @@ const MessageGroup: React.FC<MessageGroupType> = ({ author, messages }) => {
 
   return (
     <SRoot isAuthor={isAuthor}>
-      <SAuthor>{author}</SAuthor>
+      <SAuthor>User {author}</SAuthor>
       <SGroupMessageList>
         {messages.map(({ content, id, sendTime, showSendTime }) => (
           <Message

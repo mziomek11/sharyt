@@ -4,14 +4,18 @@ import MessageList from "./MessageList";
 import MessageInput from "./MessageInput";
 import styled from "../../styles";
 
-const SRoot = styled.div`
+const SRoot = styled.section`
   display: flex;
   flex-direction: column;
-  height: 300px;
-  width: 100%;
   border: 1px solid black;
-  margin-left: 1em;
   font-size: 0.9em;
+  height: 240px;
+  margin-bottom: 1em;
+
+  ${(props) => props.theme.media.tablet} {
+    height: auto;
+    margin: 0;
+  }
 `;
 
 const SHeader = styled.h2`

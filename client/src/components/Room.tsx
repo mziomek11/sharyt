@@ -1,43 +1,30 @@
 import React from "react";
 
 import styled from "../styles";
-import Video, { playerHeight, playerWidth } from "./video/Video";
-import VideoLoader from "./video/VideoLoader";
-import VideoChanger from "./video/VideoChanger";
+import VideoSection from "./video/VideoSection";
 import MessageBox from "./message/MessageBox";
-import { RoomProvider, useRoom } from "../context/room";
+import { RoomProvider } from "../context/room";
 
 const SRoot = styled.main`
-  display: flex;
-`;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1em;
 
-const SVideoContainer = styled.div`
-  width: ${playerWidth}px;
-  height: ${playerHeight}px;
-  background: #000000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  ${(props) => props.theme.media.tablet} {
+    grid-template-columns: 1fr 200px;
+    grid-auto-rows: 1fr;
+  }
 `;
 
 const Room = () => {
-  const { socket } = useRoom();
-
   return (
-    <SRoot className="container">
-      <div>
-        <SVideoContainer>
-          {socket ? <Video /> : <VideoLoader />}
-        </SVideoContainer>
-        <VideoChanger />
-      </div>
-      <MessageBox />
-    </SRoot>
+    <RoomProvider>
+      <SRoot className="container">
+        <VideoSection />
+        <MessageBox />
+      </SRoot>
+    </RoomProvider>
   );
 };
 
-export default () => (
-  <RoomProvider>
-    <Room />
-  </RoomProvider>
-);
+export default Room;

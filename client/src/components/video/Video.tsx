@@ -12,9 +12,6 @@ enum PlayerState {
   CUED = 5,
 }
 
-export const playerWidth = 640;
-export const playerHeight = 480;
-
 const Video = () => {
   const { socket, videoId, roomId } = useRoom();
   const player = useRef<YT.Player>();
@@ -77,8 +74,6 @@ const Video = () => {
     <YouTube
       videoId={videoId}
       opts={{
-        width: playerWidth.toString(),
-        height: playerHeight.toString(),
         playerVars: { autoplay: 0, rel: 0, iv_load_policy: 3 },
       }}
       onReady={handlePlayerReady}

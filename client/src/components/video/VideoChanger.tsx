@@ -28,7 +28,10 @@ const VideoChanger = () => {
     videoImage.src = "http://img.youtube.com/vi/" + videoId + "/0.jpg";
     videoImage.onload = () => {
       if (videoImage.width === 120) alert("video does not exitst");
-      else socket.emit("changeVideo", { roomId, videoId });
+      else {
+        socket.emit("changeVideo", { roomId, videoId });
+        setVideoURL("");
+      }
       setLoading(false);
     };
   }
