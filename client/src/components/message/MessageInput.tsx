@@ -5,7 +5,7 @@ import { useRoom } from "../../context/room";
 
 const SInput = styled.input`
   width: 100%;
-  padding: ${(props) => props.theme.chatPadding};
+  padding: 0.4em;
   border: 0;
   border-top: 1px solid black;
   font-size: 1em;

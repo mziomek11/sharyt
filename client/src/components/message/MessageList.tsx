@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
+import deepCopy from "clone-deep";
 
 import styled from "../../styles";
 import MessageGroup, { MessageGroupType } from "./MessageGroup";
 import { useRoom } from "../../context/room";
-import { deepCopy } from "../../utils/object";
 import { isSentTimeEqual } from "../../utils/time";
 
 type ResponseMessage = {

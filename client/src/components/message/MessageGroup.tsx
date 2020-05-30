@@ -14,16 +14,23 @@ export type MessageGroupType = {
   }>;
 };
 
-type SRootProps = { isAuthor: boolean };
+type StyledProps = { isAuthor: boolean };
 
-const SRoot = styled.li<SRootProps>`
+const SRoot = styled.li<StyledProps>`
   padding: 0.4em;
   align-self: ${(props) => (props.isAuthor ? "flex-end" : "flex-start")};
-  text-align: ${(props) => (props.isAuthor ? "right" : "left")};
+  display: flex;
+  flex-direction: column;
+  align-items: ${(props) => (props.isAuthor ? "flex-end" : "flex-start")};
 `;
 
 const SAuthor = styled.span`
   font-weight: 500;
+`;
+
+const SGroupMessageList = styled.ul`
+  display: flex;
+  flex-direction: column;
 `;
 
 const MessageGroup: React.FC<MessageGroupType> = ({ author, messages }) => {
@@ -33,7 +40,7 @@ const MessageGroup: React.FC<MessageGroupType> = ({ author, messages }) => {
   return (
     <SRoot isAuthor={isAuthor}>
       <SAuthor>{author}</SAuthor>
-      <ul>
+      <SGroupMessageList>
         {messages.map(({ content, id, sendTime, showSendTime }) => (
           <Message
             key={id}
@@ -43,7 +50,7 @@ const MessageGroup: React.FC<MessageGroupType> = ({ author, messages }) => {
             showSendTime={showSendTime}
           />
         ))}
-      </ul>
+      </SGroupMessageList>
     </SRoot>
   );
 };

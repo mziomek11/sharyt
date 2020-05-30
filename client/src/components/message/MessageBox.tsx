@@ -15,7 +15,7 @@ const SRoot = styled.div`
 `;
 
 const SHeader = styled.h2`
-  padding: ${(props) => props.theme.chatPadding};
+  padding: 0.4em;
 `;
 
 const MessageBox = () => {

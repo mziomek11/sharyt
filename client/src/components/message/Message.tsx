@@ -10,13 +10,28 @@ type Props = {
   showSendTime: boolean;
 };
 
+const SRoot = styled.li<{ isAuthor: boolean }>`
+  display: flex;
+  flex-direction: column;
+  align-items: ${(props) => (props.isAuthor ? "flex-end" : "flex-start")};
+`;
+
 const SMessage = styled.p<{ isAuthor: boolean }>`
-  padding: 0.4em;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+  hyphens: auto;
+  border-radius: 0.4em;
+  margin-top: 0.3em;
+  padding: 0.3em;
+  color: ${(props) => (props.isAuthor ? props.theme.secondaryColor : "black")};
   background: ${(props) =>
     props.isAuthor ? props.theme.primaryColor : "lightgrey"};
 `;
 
-const STime = styled.time``;
+const STime = styled.time`
+  margin-top: 0.3em;
+`;
 
 const Message: React.FC<Props> = ({
   content,
@@ -25,10 +40,10 @@ const Message: React.FC<Props> = ({
   showSendTime,
 }) => {
   return (
-    <li>
+    <SRoot isAuthor={isAuthor}>
       <SMessage isAuthor={isAuthor}>{content}</SMessage>
       {showSendTime && <STime>{formatToHoursAndMinutes(sendTime)}</STime>}
-    </li>
+    </SRoot>
   );
 };
 
