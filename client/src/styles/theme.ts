@@ -1,9 +1,15 @@
 export type Theme = {
-  primaryColor: string;
-  secondaryColor: string;
+  colors: {
+    primary: string;
+    light: string;
+    dark: string;
+  };
 };
 
 export const theme: Theme = {
-  primaryColor: "#bf0000",
-  secondaryColor: "#FFFECB",
+  colors: {
+    primary: "#bf0000",
+    light: "rgba(255, 255, 255, 0.95)",
+    dark: "rgba(0, 0, 0, 0.95)",
+  },
 };

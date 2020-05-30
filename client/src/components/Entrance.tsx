@@ -14,17 +14,17 @@ const SRoot = styled.main`
 const SLink = styled(Link)`
   font-size: 1.05em;
   padding: 0.35em 1.2em;
-  border: 0.1em solid ${(props) => props.theme.primaryColor};
+  border: 0.1em solid ${(props) => props.theme.colors.primary};
   margin: 0 0.3em 0.3em 0;
   border-radius: 0.12em;
-  color: ${(props) => props.theme.primaryColor};
+  color: ${(props) => props.theme.colors.primary};
   text-align: center;
   transition: all 0.3s;
   cursor: pointer;
 
   &:hover {
-    background: ${(props) => props.theme.primaryColor};
-    color: ${(props) => props.theme.secondaryColor};
+    background: ${(props) => props.theme.colors.primary};
+    color: ${(props) => props.theme.colors.light};
   }
 `;
 

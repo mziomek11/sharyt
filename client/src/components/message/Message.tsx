@@ -24,9 +24,10 @@ const SMessage = styled.p<{ isAuthor: boolean }>`
   border-radius: 0.4em;
   margin-top: 0.3em;
   padding: 0.3em;
-  color: ${(props) => (props.isAuthor ? props.theme.secondaryColor : "black")};
+  color: ${(props) =>
+    props.isAuthor ? props.theme.colors.light : props.theme.colors.dark};
   background: ${(props) =>
-    props.isAuthor ? props.theme.primaryColor : "lightgrey"};
+    props.isAuthor ? props.theme.colors.primary : "lightgrey"};
 `;
 
 const STime = styled.time`
