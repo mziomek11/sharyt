@@ -12,6 +12,7 @@ export type Theme = {
   };
   media: {
     tablet: string;
+    laptop: string;
   };
 };
 
@@ -29,6 +30,7 @@ export const theme: Theme = {
   },
   media: {
     tablet: createMedia(786),
+    laptop: createMedia(1024),
   },
 };
 
