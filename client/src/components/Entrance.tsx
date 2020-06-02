@@ -39,10 +39,14 @@ const SLink = styled(Link)`
   }
 `;
 
+const SHeader = styled.h1`
+  font-weight: 500;
+`;
+
 const Entrance = () => {
   return (
     <SRoot className="container">
-      <h1>Watch YouTube videos with friends</h1>
+      <SHeader>Watch YouTube videos with friends</SHeader>
       <SVGContainer>
         <VideoSvg width="100%" />
       </SVGContainer>
