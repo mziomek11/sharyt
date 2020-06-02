@@ -17,15 +17,20 @@ export type MessageGroupType = {
 type StyledProps = { isAuthor: boolean };
 
 const SRoot = styled.li<StyledProps>`
-  padding: 0.4em;
   align-self: ${(props) => (props.isAuthor ? "flex-end" : "flex-start")};
   display: flex;
   flex-direction: column;
   align-items: ${(props) => (props.isAuthor ? "flex-end" : "flex-start")};
+  margin-top: 0.5rem;
+
+  &:first-child {
+    margin-top: 0;
+  }
 `;
 
 const SAuthor = styled.span`
   font-weight: 500;
+  margin-bottom: 0.1em;
 `;
 
 const SGroupMessageList = styled.ul`
@@ -39,7 +44,7 @@ const MessageGroup: React.FC<MessageGroupType> = ({ author, messages }) => {
 
   return (
     <SRoot isAuthor={isAuthor}>
-      <SAuthor>User {author}</SAuthor>
+      <SAuthor>{author === "System" ? author : `User ${author}`}</SAuthor>
       <SGroupMessageList>
         {messages.map(({ content, id, sendTime, showSendTime }) => (
           <Message

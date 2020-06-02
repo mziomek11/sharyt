@@ -7,8 +7,9 @@ const SInput = styled.input`
   width: 100%;
   padding: 0.4em;
   border: 0;
-  border-top: 1px solid black;
-  font-size: 1em;
+  border-top: 1px solid lightgrey;
+  transition: ${(props) => props.theme.transition.default};
+  font-size: 0.95em;
 `;
 
 const MessageInput = () => {

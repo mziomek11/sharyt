@@ -18,12 +18,26 @@ const SList = styled.ul`
   flex-direction: column;
   height: 100%;
   overflow: auto;
-  border-top: 1px solid black;
+  padding: 0.6em;
 `;
+
+const welcomeMessage: MessageGroupType = {
+  author: "System",
+  messages: [
+    {
+      content: "Welcome in chat room",
+      id: "123",
+      showSendTime: true,
+      sendTime: Date.now(),
+    },
+  ],
+};
 
 const MessageList = () => {
   const { socket } = useRoom();
-  const [messageGroups, setMessagesGroups] = useState<MessageGroupType[]>([]);
+  const [messageGroups, setMessagesGroups] = useState<MessageGroupType[]>([
+    welcomeMessage,
+  ]);
   const listRef = useRef<HTMLUListElement>(null);
 
   useEffect(() => {
@@ -36,8 +50,6 @@ const MessageList = () => {
   function onMessage({ author, ...rest }: ResponseMessage) {
     setMessagesGroups((prevGroups): MessageGroupType[] => {
       const message = { ...rest, showSendTime: true };
-      if (prevGroups.length === 0) return [{ author, messages: [message] }];
-
       const otherGroups: MessageGroupType[] = deepCopy(prevGroups);
       const lastGroup = otherGroups.pop() as MessageGroupType;
 

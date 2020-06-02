@@ -21,17 +21,22 @@ const SMessage = styled.p<{ isAuthor: boolean }>`
   word-wrap: break-word;
   word-break: break-word;
   hyphens: auto;
-  border-radius: 0.4em;
-  margin-top: 0.3em;
-  padding: 0.3em;
+  border-radius: 0.5em;
+  margin-top: 0.2em;
+  padding: 0.4em 0.45em;
   color: ${(props) =>
     props.isAuthor ? props.theme.colors.light : props.theme.colors.dark};
   background: ${(props) =>
     props.isAuthor ? props.theme.colors.primary : "lightgrey"};
 `;
 
-const STime = styled.time`
-  margin-top: 0.3em;
+const timeMargin = "0.1em";
+const STime = styled.time<{ isAuthor: boolean }>`
+  margin-top: 0.2em;
+  font-size: 0.9em;
+  color: rgba(0, 0, 0, 0.6);
+  margin-left: ${(props) => (props.isAuthor ? 0 : timeMargin)};
+  margin-right: ${(props) => (props.isAuthor ? timeMargin : 0)};
 `;
 
 const Message: React.FC<Props> = ({
@@ -43,7 +48,9 @@ const Message: React.FC<Props> = ({
   return (
     <SRoot isAuthor={isAuthor}>
       <SMessage isAuthor={isAuthor}>{content}</SMessage>
-      {showSendTime && <STime>{formatToHoursAndMinutes(sendTime)}</STime>}
+      {showSendTime && (
+        <STime isAuthor={isAuthor}>{formatToHoursAndMinutes(sendTime)}</STime>
+      )}
     </SRoot>
   );
 };

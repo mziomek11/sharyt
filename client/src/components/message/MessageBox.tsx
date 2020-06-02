@@ -4,28 +4,29 @@ import MessageList from "./MessageList";
 import MessageInput from "./MessageInput";
 import styled from "../../styles";
 
+const margin = "1em";
+
 const SRoot = styled.section`
   display: flex;
   flex-direction: column;
-  border: 1px solid black;
-  font-size: 0.9em;
+  font-size: 0.95em;
   height: 240px;
-  margin-bottom: 1em;
+  width: 100%;
+  box-shadow: ${(props) => props.theme.shadow.default};
+  margin: ${margin} 0;
+  border: 1px solid lightgrey;
 
   ${(props) => props.theme.media.tablet} {
-    height: auto;
+    height: 340px;
+    width: 340px;
     margin: 0;
+    margin-left: ${margin};
   }
-`;
-
-const SHeader = styled.h2`
-  padding: 0.4em;
 `;
 
 const MessageBox = () => {
   return (
     <SRoot>
-      <SHeader>Chat</SHeader>
       <MessageList />
       <MessageInput />
     </SRoot>

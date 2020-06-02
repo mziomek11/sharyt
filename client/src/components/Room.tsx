@@ -6,13 +6,11 @@ import MessageBox from "./message/MessageBox";
 import { RoomProvider } from "../context/room";
 
 const SRoot = styled.main`
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1em;
+  display: flex;
+  flex-direction: column;
 
   ${(props) => props.theme.media.tablet} {
-    grid-template-columns: 1fr 200px;
-    grid-auto-rows: 1fr;
+    flex-direction: row;
   }
 `;
 

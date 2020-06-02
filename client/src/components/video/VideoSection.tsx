@@ -16,6 +16,7 @@ const SVideoContainer = styled.div`
   justify-content: center;
   position: relative;
   padding-top: 56.25%;
+  box-shadow: ${(props) => props.theme.shadow.default};
 `;
 
 const VideoSection = () => {

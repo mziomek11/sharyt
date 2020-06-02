@@ -5,6 +5,7 @@ import styled from "../styles";
 
 const SHeader = styled.header`
   background: ${(props) => props.theme.colors.primary};
+  box-shadow: ${(props) => props.theme.shadow.default};
   padding: 0.65em;
   margin-bottom: 1.5em;
   text-align: center;

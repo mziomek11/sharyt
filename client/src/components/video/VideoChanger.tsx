@@ -5,10 +5,14 @@ import { useRoom } from "../../context/room";
 
 const SForm = styled.form`
   margin-top: 1em;
+  box-shadow: ${(props) => props.theme.shadow.default};
 `;
 
 const SInput = styled.input`
   width: 100%;
+  padding: 0.4em 0.6em;
+  font-size: 1.1em;
+  border: 1px solid lightgrey;
 `;
 
 const VideoChanger = () => {
@@ -43,7 +47,7 @@ const VideoChanger = () => {
   return (
     <SForm onSubmit={handleSubmit}>
       <SInput
-        placeholder="Video link here"
+        placeholder="Paste here youtube link"
         onChange={handleChange}
         value={videoURL}
         disabled={!Boolean(socket) || loading}
