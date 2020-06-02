@@ -27,6 +27,7 @@ const SLink = styled(Link)`
   border: 0.1em solid ${(props) => props.theme.colors.primary};
   transition: ${(props) => props.theme.transition.default};
   box-shadow: ${(props) => props.theme.shadow.default};
+  font-weight: 500;
 
   &:hover {
     background: ${(props) => props.theme.colors.primary};
