@@ -13,7 +13,7 @@ const SRoot = styled.main`
 
 const SVGContainer = styled.div`
   width: 100%;
-  max-width: 600px;
+  max-width: 500px;
 `;
 
 const SLink = styled(Link)`
@@ -39,17 +39,26 @@ const SLink = styled(Link)`
   }
 `;
 
-const SHeader = styled.h1`
+const SHeadingPrimary = styled.h1`
+  font-weight: 500;
+  margin-bottom: 0.2em;
+`;
+
+const SHeadingSecondary = styled.h3`
   font-weight: 500;
 `;
 
 const Entrance = () => {
   return (
     <SRoot className="container">
-      <SHeader>Watch YouTube videos with friends</SHeader>
+      <SHeadingPrimary>Watch YouTube videos with friends</SHeadingPrimary>
+      <SHeadingSecondary>
+        Create room, share link and enjoy videos together
+      </SHeadingSecondary>
       <SVGContainer>
         <VideoSvg width="100%" />
       </SVGContainer>
+
       <SLink to="/room/new">Create room</SLink>
     </SRoot>
   );
